@@ -10,17 +10,18 @@ import dash_bio as dashbio
 import dash_core_components as dcc
 import dash_html_components as html
 
-# Set the CSS files
+# Set the CSS files for customizing the appearance of the page and components.
+# Here, I prefer to use Bulma.css as a CSS framework.
 external_stylesheets=["https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"]
 
 # Set the app configuration
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# TP53 Variation and Domain Data
+# Import TP53 Variation and Domain Data
 with open('TP53.json', "r") as variant_domain_json_data:
     mutationData = json.load(variant_domain_json_data)
 
-# TP53 MSA Data
+# Import TP53 MSA Data
 alignment_data = open('fasta.txt', "r",  encoding="utf-8").read()
 
 # Page Layout Begins
@@ -55,6 +56,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 html.A("*Please, visit my another repository if you would like to illustrate the gnomAD variants. Click here!", href="https://github.com/furkanmtorun/gnomad_python_api", target="_blank"),
             ]),
             html.Div(className="column is-half is-primary is-centered", children=[
+                
                 # Here is the needle plot!  
                 dashbio.NeedlePlot(
                     id = "fmt_needle_plot",
@@ -70,13 +72,13 @@ app.layout = html.Div(id="fmt_envelope", children=[
                     domainStyle = {
                         "displayMinorDomains": True, # If you would like to neglect the minor domains, stay it as True.
                     },
-                    rangeSlider = False, # If you would like to enable range slider (filtering based on position), turn it into True 
+                    rangeSlider = False, # If you would like to enable range slider (for enabling to filter based on position), turn it into True.
                     xlabel = "Sequence of the protein",
                     ylabel = "# of Mutations",
-                ), 
-                # ends of needle plot
+                ), # ends of needle plot
+
             ]),
-        ] # ends of columns div
+        ] # ends of 'columns'
     ),
 
     # Sequence Viewer Component
@@ -84,6 +86,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
     html.Div(className="columns is-centered is-vcentered has-background-primary", style={"paddingLeft": 55},
         children=[
             html.Div(className="column is-three-fifths is-centered", children=[
+                
                 # Here is alignment chart!
                 dashbio.AlignmentChart(
                     id = "fmt_alignment_viewer",
@@ -99,9 +102,8 @@ app.layout = html.Div(id="fmt_envelope", children=[
                     overview = "slider", # If you would like to change, turn it into "heatmap" or "none" for disabling.
                     height = 490,
                     width = "95%",
-                ),
-                html.Div(id='alignment-viewer-output')
-                # ends of alignment chart
+                ), # ends of alignment chart
+                
             ]),
             html.Div(className="column is-centered", style={"paddingRight": 55}, children=[
                 html.H1("Sequence Alignment Viewer", className="title has-text-white-bis"),
@@ -126,6 +128,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 html.P("Something else.", className="subtitle is-5 has-text-white-bis"), 
             ]),
             html.Div(className="column is-half is-centered", children=[
+                
                 # Here is the other plot!
                 dcc.Graph(
                     id="another_plot_2",
@@ -137,16 +140,19 @@ app.layout = html.Div(id="fmt_envelope", children=[
                         "layout": { "title": "Another Plot #2" }
                     }
                 ) # ends of another plot 
+
             ]),
         ]), # ends of the other plot
 
-    # Thanks Component
+    # Footer Part
     html.Div(className="columns is-centered is-vcentered has-background-light", style={"padding": "100px 0px"},
         children=[
             html.Div(className="column is-half is-centered is-vcentered", children=[
                 html.H1("Thanks for your effort to open and come here!", className="title"),
                 html.P("I will keep continue to append new interactive graphs and figures as much as I can.", className="subtitle is-5"),
-                html.Hr(style={"background": "#555"}),
+                html.Br(),
+                html.Hr(style={"background": "#CCC"}),
+                html.Br(),
                 html.H1("Contributing & Feedback", className="title"),
                 html.P("I would be very happy to see any feedbacks and contributions on this repository!", className="subtitle is-5"),
                 html.A("@furkanmtorun", className="button is-medium"),
@@ -155,9 +161,9 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 html.A("Scholar", href="https://scholar.google.com/citations?user=d5ZyOZ4AAAAJ", target="_blank", className="button is-primary is-medium",  style={"marginLeft": 5}),
                 html.A("Twitter", href="https://twitter.com/furkanmtorun", target="_blank", className="button is-info is-medium", style={"marginLeft": 5}),
                 html.A("Web", href="https://furkanmtorun.github.io/", target="_blank", className="button is-danger is-medium", style={"marginLeft": 5}),
+                html.Br()
             ])
-        ]), # ends of the other plot
-
+        ]), # ends of footer
 
 ]) #ends of page layout
 
