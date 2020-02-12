@@ -16,8 +16,12 @@ external_stylesheets=["https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bu
 # Set the app configuration
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+# TP53 Variation and Domain Data
 with open('TP53.json', "r") as variant_domain_json_data:
     mutationData = json.load(variant_domain_json_data)
+
+# TP53 MSA Data
+alignment_data = open('fasta.txt', "r",  encoding="utf-8").read()
 
 # Page Layout Begins
 app.layout = html.Div(id="fmt_envelope", children=[
@@ -75,31 +79,40 @@ app.layout = html.Div(id="fmt_envelope", children=[
         ] # ends of columns div
     ),
 
-    # Another Plot Component
-    html.Div(className="columns is-centered is-vcentered has-background-primary", style={"paddingLeft": 55, "paddingRight": 25},
+    # Sequence Viewer Component
+    #https://dash.plot.ly/dash-bio/alignmentchart
+    html.Div(className="columns is-centered is-vcentered has-background-primary", style={"paddingLeft": 55},
         children=[
-            html.Div(className="column is-half is-centered", children=[
-                # Here is another plot!
-                dcc.Graph(
-                    id="another_plot_1",
-                    figure={
-                        "data": [
-                            {"x": [1, 2, 3], "y": [4, 1, 2], "type": "bar", "name": "PlotLegend1"},
-                            {"x": [1, 2, 3], "y": [2, 4, 5], "type": "bar", "name": "PlotLegend2"},
-                        ],
-                        "layout": { "title": "Another Plot #1" }
-                    }
-                ) # ends of another plot 
+            html.Div(className="column is-three-fifths is-centered", children=[
+                # Here is alignment chart!
+                dashbio.AlignmentChart(
+                    id = "fmt_alignment_viewer",
+                    data = alignment_data,
+                    extension = "fasta", # If your data contains clustal output, turn it into "clustal".
+                    colorscale =  "clustal2", # If yo would like to change the color schema, work on here.
+                    showgap = False,
+                    showconsensus = True, # If you would like to just enable alignment part, turn it into False.
+                    showconservation = True, # If you would like to just enable alignment part, turn it into False.
+                    tilewidth = 20, # It defines the width of the each amino acid/nucleotid box.
+                    tileheight = 20, # It defines the height of the each amino acid/nucleotid box.
+                    showid = False,
+                    overview = "slider", # If you would like to change, turn it into "heatmap" or "none" for disabling.
+                    height = 490,
+                    width = "95%",
+                ),
+                html.Div(id='alignment-viewer-output')
+                # ends of alignment chart
             ]),
-            html.Div(className="column is-half is-centered", children=[
-                html.H1("Another Plot #1", className="title has-text-white-bis"),
-                html.P("Another Plot Info #1", 
+            html.Div(className="column is-centered", style={"paddingRight": 55}, children=[
+                html.H1("Sequence Alignment Viewer", className="title has-text-white-bis"),
+                html.P("It allows you to visualize the genomics and transcriptomic sequence with several features such as coverage, gaps, consensus and heatmap overview.", 
                         className="subtitle is-5 has-text-white-bis"),
                 html.A("Go to Docs for 'Dash' library", href="https://dash.plot.ly/", target="_blank", className="button is-outlined is-light is-rounded"),
                 html.Hr(),
-                html.P("Something else.", className="subtitle is-5 has-text-white-bis"), 
+                html.P("*FASTA or Clustal formats can be used here.", className="subtitle is-6 has-text-white-bis"), 
+                html.P("*Some options are altered/disabled in this example. Just look at the code and comments!", className="subtitle is-6 has-text-white-bis"), 
             ]),
-        ]), # ends of another plot
+        ]), # ends of Sequence Viewer
 
     # The other Plot Component
     html.Div(className="columns is-centered is-vcentered has-background-info", style={"paddingLeft": 55, "paddingRight": 25},
