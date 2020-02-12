@@ -6,6 +6,8 @@
 
 import json
 import dash
+import math as m
+import pandas as pd
 import dash_bio as dashbio
 import dash_core_components as dcc
 import dash_html_components as html
@@ -23,6 +25,9 @@ with open('TP53.json', "r") as variant_domain_json_data:
 
 # Import TP53 MSA Data
 alignment_data = open('fasta.txt', "r",  encoding="utf-8").read()
+
+# Import GWAS Data for Manhattan Plot
+gwas_data = pd.read_csv('gwas_data.csv')
 
 # Page Layout Begins
 app.layout = html.Div(id="fmt_envelope", children=[
@@ -42,18 +47,18 @@ app.layout = html.Div(id="fmt_envelope", children=[
     ]),
     
     # Needle Plot Component
-    html.Div(className="columns is-centered is-vcentered", style={"paddingLeft": 55, "paddingRight": 25, "marginBottom": 50},
+    html.Div(className="columns is-centered is-vcentered has-background-info", style={"padding": "40px 25px 50px 55px"},
         children=[
             html.Div(className="column is-half is-primary is-centered", children=[
-                html.H1("Needle Plot for Proteins", className="title"),
+                html.H1("Needle Plot for Proteins", className="title has-text-white-bis"),
                 html.P("It allows you to illustrate the mutations or other changes on the corresponding positions of amino acids within the protein sequence together with the protein domains.", 
-                        className="subtitle is-5"),
-                html.A("Go to Docs for 'Dash' library", href="https://dash.plot.ly/", target="_blank", className="button is-outlined is-success is-rounded"),
+                        className="subtitle is-5 has-text-white-bis"),
+                html.A("Go to Docs for 'Dash' library", href="https://dash.plot.ly/", target="_blank", className="button is-outlined is-light is-rounded"),
                 html.Hr(),
-                html.H1("Data Structure for Needle Plot", className="title"),
-                html.P("Here is the structure of the JSON file containing the variants and the domains. In this example, TP53 protein variants and domains were given.", className="subtitle is-5"),
+                html.H1("Data Structure for Needle Plot", className="title has-text-white-bis"),
+                html.P("Here is the structure of the JSON file containing the variants and the domains. In this example, TP53 protein variants and domains were given.", className="subtitle is-5 has-text-white-bis"),
                 html.Div("{ x: [], y: [], domains: [], mutationGroups: [] }", className="notification is-light"),
-                html.A("*Please, visit my another repository if you would like to illustrate the gnomAD variants. Click here!", href="https://github.com/furkanmtorun/gnomad_python_api", target="_blank"),
+                html.A("+ Please click here to visit my another repository if you would like to get gnomAD variants!", href="https://github.com/furkanmtorun/gnomad_python_api", target="_blank", className="has-text-warning"),
             ]),
             html.Div(className="column is-half is-primary is-centered", children=[
                 
@@ -105,7 +110,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 ), # ends of alignment chart
                 
             ]),
-            html.Div(className="column is-centered", style={"paddingRight": 55}, children=[
+            html.Div(className="column is-centered", style={"padding": "30px 55px 30px 0px"}, children=[
                 html.H1("Sequence Alignment Viewer", className="title has-text-white-bis"),
                 html.P("It allows you to visualize the genomics and transcriptomic sequence with several features such as coverage, gaps, consensus and heatmap overview.", 
                         className="subtitle is-5 has-text-white-bis"),
@@ -116,33 +121,35 @@ app.layout = html.Div(id="fmt_envelope", children=[
             ]),
         ]), # ends of Sequence Viewer
 
-    # The other Plot Component
-    html.Div(className="columns is-centered is-vcentered has-background-info", style={"paddingLeft": 55, "paddingRight": 25},
+    # Manhattan Plot Component
+    html.Div(className="columns is-centered is-vcentered", style={"paddingLeft": 55, "paddingRight": 25},
         children=[
             html.Div(className="column is-half is-centered", children=[
-                html.H1("Another Plot #2", className="title has-text-white-bis"),
-                html.P("Another Plot Info #2", 
-                        className="subtitle is-5 has-text-white-bis"),
-                html.A("Go to Docs for 'Dash' library", href="https://dash.plot.ly/", target="_blank", className="button is-outlined is-light is-rounded"),
-                html.Hr(),
-                html.P("Something else.", className="subtitle is-5 has-text-white-bis"), 
+                html.H1("Manhattan Plot", className="title"),
+                html.P("Manhattan Plot is a type of scatter plot and commonly used in genome-wide association studies (GWAS) to visualize display significant SNPs efficiently.", 
+                        className="subtitle is-5"),
+                html.A("Go to Docs for 'Dash' library", href="https://dash.plot.ly/", target="_blank", className="button is-outlined is-info is-rounded"),
+                html.Hr(style={"background": "#CCC"}),
+                html.P("*The genome-wide significance threshold was set as 5e-8 and plotted with green line, and the most significant SNPs are colored in red.", className="subtitle is-5"), 
             ]),
             html.Div(className="column is-half is-centered", children=[
                 
-                # Here is the other plot!
-                dcc.Graph(
-                    id="another_plot_2",
-                    figure={
-                        "data": [
-                            {"x": [1, 2, 3], "y": [4, 1, 2], "type": "bar", "name": "PlotLegend1"},
-                            {"x": [1, 2, 3], "y": [20, 4, 5], "type": "bar", "name": "PlotLegend2"},
-                        ],
-                        "layout": { "title": "Another Plot #2" }
-                    }
-                ) # ends of another plot 
+                # Here is Manhattan Plot 
+                dcc.Graph(figure=dashbio.ManhattanPlot(
+                    dataframe = gwas_data,
+                    highlight_color = "#ff3860",
+                    genomewideline_value = -(m.log10(5e-8)),
+                    genomewideline_width = 2, # Boldness of the genome-wide line
+                    genomewideline_color = "#00d1b2",
+                    suggestiveline_value = False, # If you would like to add a suggestive threshold, turn it into a float value.
+                    annotation = "ADD_INFO", # If you would like to add extra info to the annotation part, here put the column name.
+                    showgrid = False,
+                    title = None,
+                    xlabel = "chromosome"
+                )), # ends of Manhattan Plot 
 
             ]),
-        ]), # ends of the other plot
+        ]), 
 
     # Footer Part
     html.Div(className="columns is-centered is-vcentered has-background-light", style={"padding": "100px 0px"},
