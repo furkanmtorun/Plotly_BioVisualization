@@ -23,7 +23,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 with open('TP53.json', "r") as variant_domain_json_data:
     mutationData = json.load(variant_domain_json_data)
 
-# Import TP53 MSA Data
+# Import MSA Data
 alignment_data = open('fasta.txt', "r",  encoding="utf-8").read()
 
 # Import GWAS Data for Manhattan Plot
@@ -75,7 +75,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                         # "headColor": ["blue", "purple"] # If you would like to change color of needle heads, work on here.
                     },
                     domainStyle = {
-                        "displayMinorDomains": True, # If you would like to neglect the minor domains, stay it as True.
+                        "displayMinorDomains": True, # If you would like to neglect the minor domains, turn it into False.
                     },
                     rangeSlider = False, # If you would like to enable range slider (for enabling to filter based on position), turn it into True.
                     xlabel = "Sequence of the protein",
@@ -83,7 +83,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 ), # ends of needle plot
 
             ]),
-        ] # ends of 'columns'
+        ] # ends of 'columns' div
     ),
 
     # Sequence Viewer Component
@@ -104,7 +104,7 @@ app.layout = html.Div(id="fmt_envelope", children=[
                     tilewidth = 20, # It defines the width of the each amino acid/nucleotid box.
                     tileheight = 20, # It defines the height of the each amino acid/nucleotid box.
                     showid = False,
-                    overview = "slider", # If you would like to change, turn it into "heatmap" or "none" for disabling.
+                    overview = None, # If you would like to change, turn it into "heatmap" or "slider".
                     height = 490,
                     width = "95%",
                 ), # ends of alignment chart
@@ -137,14 +137,14 @@ app.layout = html.Div(id="fmt_envelope", children=[
                 # Here is Manhattan Plot 
                 dcc.Graph(figure=dashbio.ManhattanPlot(
                     dataframe = gwas_data,
-                    highlight_color = "#ff3860",
-                    genomewideline_value = -(m.log10(5e-8)),
+                    highlight_color = "#ff3860", # The color of the significant SNPs
+                    genomewideline_value = -(m.log10(5e-8)), # The genome-wide significance threshold
                     genomewideline_width = 2, # Boldness of the genome-wide line
-                    genomewideline_color = "#00d1b2",
+                    genomewideline_color = "#00d1b2", # The color of genome-wide significance line
                     suggestiveline_value = False, # If you would like to add a suggestive threshold, turn it into a float value.
                     annotation = "ADD_INFO", # If you would like to add extra info to the annotation part, here put the column name.
-                    showgrid = False,
-                    title = None,
+                    showgrid = False, # If you would like to see grid lines in the background, turn it into True.
+                    title = None, # If you would like to add a title to the graph, just add "My Manhattan Plot"
                     xlabel = "chromosome"
                 )), # ends of Manhattan Plot 
 
