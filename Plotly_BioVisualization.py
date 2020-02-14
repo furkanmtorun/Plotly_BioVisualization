@@ -175,4 +175,4 @@ app.layout = html.Div(id="fmt_envelope", children=[
 ]) #ends of page layout
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server()
