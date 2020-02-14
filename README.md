@@ -37,9 +37,9 @@ So, I have wanted to learn how to use this library with Python, create some grea
 
 - ### :hash:  Needle Plot
 	- **Purpose:** It allows you to illustrate the mutations or other changes on the corresponding positions of amino acids within the protein sequence together with the protein domains.
-	- **Data structure:** JSON / Dict
-	`{ x: [], y: [], domains: [], mutationGroups: [] }`
-	=![Needle Plot Data](https://user-images.githubusercontent.com/49681382/74552773-086fec80-4f67-11ea-86ae-44b845a5c5a2.png)
+	- **Data structure:** JSON / Dict = `{ x: [], y: [], domains: [], mutationGroups: [] }`
+	
+		![Needle Plot Data](https://user-images.githubusercontent.com/49681382/74552773-086fec80-4f67-11ea-86ae-44b845a5c5a2.png)
 	
 	- **Coding (just review the code, the comments are over there!):**
 
@@ -67,7 +67,8 @@ So, I have wanted to learn how to use this library with Python, create some grea
 			![MP-Coding](https://user-images.githubusercontent.com/49681382/74554893-96e66d00-4f6b-11ea-98a1-55a79fd02c1a.png)
 
 	- **How it looks like?**
-			![MPlot](https://user-images.githubusercontent.com/49681382/74554587-f2642b00-4f6a-11ea-8a1e-83a12b4ab742.png)
+	
+		![MPlot](https://user-images.githubusercontent.com/49681382/74554587-f2642b00-4f6a-11ea-8a1e-83a12b4ab742.png)
 
 
 
@@ -91,7 +92,11 @@ So, I have wanted to learn how to use this library with Python, create some grea
 **I would be very happy to see any feedback and contributions on the repository.**
 > I will keep continuing to append new interactive graphs and figures as much as I can.
 
-**Furkan Torun — [furkanmtorun@gmail.com](mailto:furkanmtorun@gmail.com) 
+
+**Furkan Torun — [furkanmtorun@gmail.com](mailto:furkanmtorun@gmail.com)** 
+
 Twitter: [@furkanmtorun](https://twitter.com/furkanmtorun) 
+
 Website: [furkanmtorun.github.io](https://furkanmtorun.github.io/)
-Academics: [Google Scholar Profile](https://scholar.google.com/citations?user=d5ZyOZ4AAAAJ)**
+
+Academics: [Google Scholar Profile](https://scholar.google.com/citations?user=d5ZyOZ4AAAAJ)
