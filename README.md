@@ -75,7 +75,7 @@ So, I have wanted to learn how to use this library with Python, create some grea
 
 ## :hash: Sources & References
 
- - Hossain, Shammamah. _Visualization of Bioinformatics Data with Dash Bio_. 2019, ss. 126-33. _DOI.org (Crossref)_, doi:10.25080/Majora-7ddc1dd1-012.
+ - Hossain, S. (2019). Visualization of Bioinformatics Data with Dash Bio. Proceedings of the 18th Python in Science Conference. doi: 10.25080/majora-7ddc1dd1-012.
   - Plotly Dash Bio  Announcement Blog Post: [https://medium.com/plotly/announcing-dash-bio-ed8835d5da0c](https://medium.com/plotly/announcing-dash-bio-ed8835d5da0c)
  - Plotly Dash Bio Page: [https://dash.plot.ly/dash-bio](https://dash.plot.ly/dash-bio)
 	 - Alignment Chart Details: [https://dash.plot.ly/dash-bio/alignmentchart](https://dash.plot.ly/dash-bio/alignmentchart)
