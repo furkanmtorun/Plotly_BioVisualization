@@ -9,7 +9,7 @@ In this respect, [Plotly](https://plot.ly/) has recently emerged and it can be u
 So, I have wanted to learn how to use this library with Python, create some great charts and shared them. 
 
 ## :hash: How it looks like in general?
-![Plotly_BioVis_Gif](https://github.com/furkanmtorun/Plotly_BioVisualization/raw/master/Plotly_BioVisualization.gif)
+![Plotly_BioVis_Gif](https://github.com/furkanmtorun/Plotly_BioVisualization/raw/master/data_sets/Plotly_BioVisualization.gif)
 
 
 ## :hash: Requirements and Installation

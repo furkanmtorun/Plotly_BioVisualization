@@ -20,14 +20,14 @@ external_stylesheets=["https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bu
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Import TP53 Variation and Domain Data
-with open('TP53.json', "r") as variant_domain_json_data:
+with open('data_sets/TP53.json', "r") as variant_domain_json_data:
     mutationData = json.load(variant_domain_json_data)
 
 # Import MSA Data
-alignment_data = open('fasta.txt', "r",  encoding="utf-8").read()
+alignment_data = open('data_sets/fasta.txt', "r",  encoding="utf-8").read()
 
 # Import GWAS Data for Manhattan Plot
-gwas_data = pd.read_csv('gwas_data.csv')
+gwas_data = pd.read_csv('data_sets/gwas_data.csv')
 
 # Page Layout Begins
 app.layout = html.Div(id="fmt_envelope", children=[
